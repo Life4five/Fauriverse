@@ -63,27 +63,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-// Dynamic text color change on scroll attempt
-let scrollAttempts = 0;
-document.addEventListener('wheel', () => {
-    scrollAttempts++;
-    const letters = document.querySelectorAll('.letter');
-    
-    letters.forEach((letter, index) => {
-        setTimeout(() => {
-            const hue = (scrollAttempts * 30 + index * 10) % 360;
-            letter.style.color = `hsl(${hue}, 100%, 90%)`;
-        }, index * 50);
-    });
-    
-    setTimeout(() => {
-        letters.forEach(letter => {
-            letter.style.color = '';
-        });
-    }, 2000);
-});
-
-
-console.log('✨ Fauriverse - Coming Soon ✨');
-console.log('Stay tuned for something extraordinary...');
