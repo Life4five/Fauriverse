@@ -1,2 +1,2 @@
-A new world is being written\n
+A new world is being written
 Stay tuned.
