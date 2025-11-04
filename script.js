@@ -1,118 +1,122 @@
-// Dynamic fire glow intensity based on mouse position
+// Subtle parallax effect for particles
 document.addEventListener('mousemove', (e) => {
-    const fireGlow = document.querySelector('.fire-glow');
+    const particles = document.querySelectorAll('.particle');
     const mouseX = e.clientX / window.innerWidth;
     const mouseY = e.clientY / window.innerHeight;
     
-    const intensity = 0.6 + (1 - Math.abs(mouseX - 0.5)) * 0.4;
-    fireGlow.style.opacity = intensity;
-    
-    const smokes = document.querySelectorAll('.smoke');
-    smokes.forEach((smoke, index) => {
-        const speed = (index + 1) * 0.3;
-        const x = (mouseX - 0.5) * speed * 30;
-        const y = (mouseY - 0.5) * speed * 30;
-        smoke.style.transform = `translate(${x}px, ${y}px)`;
+    particles.forEach((particle, index) => {
+        const speed = (index + 1) * 0.4;
+        const x = (mouseX - 0.5) * speed * 20;
+        const y = (mouseY - 0.5) * speed * 20;
+        
+        particle.style.transform = `translate(${x}px, ${y}px)`;
     });
 });
 
-// Add extra embers on click
-document.addEventListener('click', (e) => {
-    const fireParticles = document.querySelector('.fire-particles');
-    const emberCount = Math.floor(Math.random() * 3) + 3;
+// Grid distortion on mouse move
+document.addEventListener('mousemove', (e) => {
+    const grid = document.querySelector('.grid-overlay');
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
     
-    for (let i = 0; i < emberCount; i++) {
-        const ember = document.createElement('div');
-        ember.className = 'ember click-ember';
-        ember.style.left = e.clientX + 'px';
-        ember.style.bottom = (window.innerHeight - e.clientY) + 'px';
-        ember.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        ember.style.animationDelay = (Math.random() * 0.5) + 's';
-        
-        fireParticles.appendChild(ember);
-        setTimeout(() => ember.remove(), 5000);
-    }
+    const intensity = 0.3 + (1 - Math.abs(mouseX - 0.5)) * 0.2;
+    grid.style.opacity = intensity;
 });
 
-// Intensify fire effect on title hover
-const title = document.querySelector('.title-main');
+// Click creates cold ripple effect
+document.addEventListener('click', (e) => {
+    const ripple = document.createElement('div');
+    ripple.style.position = 'absolute';
+    ripple.style.width = '10px';
+    ripple.style.height = '10px';
+    ripple.style.borderRadius = '50%';
+    ripple.style.border = '2px solid rgba(74, 144, 226, 0.6)';
+    ripple.style.left = e.clientX - 5 + 'px';
+    ripple.style.top = e.clientY - 5 + 'px';
+    ripple.style.pointerEvents = 'none';
+    ripple.style.animation = 'coldRipple 1s ease-out';
+    ripple.style.zIndex = '1000';
+    
+    document.body.appendChild(ripple);
+    
+    setTimeout(() => ripple.remove(), 1000);
+});
+
+// Add cold ripple animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes coldRipple {
+        0% {
+            transform: scale(0);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(15);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Title glitch effect on hover
+const title = document.querySelector('.title');
 if (title) {
     title.addEventListener('mouseenter', () => {
-        const fireGlow = document.querySelector('.fire-glow');
-        fireGlow.style.transition = 'all 0.3s ease';
-        fireGlow.style.transform = 'translate(-50%, -50%) scale(1.3)';
-        fireGlow.style.opacity = '1';
+        let glitchCount = 0;
+        const glitchInterval = setInterval(() => {
+            title.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+            glitchCount++;
+            if (glitchCount > 5) {
+                clearInterval(glitchInterval);
+                title.style.transform = 'translate(0, 0)';
+            }
+        }, 50);
     });
-    
-    title.addEventListener('mouseleave', () => {
-        const fireGlow = document.querySelector('.fire-glow');
-        fireGlow.style.transform = 'translate(-50%, -50%) scale(1)';
-        fireGlow.style.opacity = '0.6';
-    });
 }
 
-// Flicker effect on flame emoji
-const flame = document.querySelector('.flame');
-if (flame) {
-    setInterval(() => {
-        if (Math.random() > 0.7) {
-            flame.style.opacity = '0.7';
-            setTimeout(() => { flame.style.opacity = '1'; }, 100);
-        }
-    }, 2000);
-}
-
-// Add dynamic ember generation
-function createRandomEmber() {
-    const fireParticles = document.querySelector('.fire-particles');
-    const ember = document.createElement('div');
-    ember.className = 'ember dynamic-ember';
-    ember.style.left = Math.random() * 100 + '%';
-    ember.style.animationDuration = (Math.random() * 4 + 6) + 's';
-    ember.style.animationDelay = '0s';
-    
-    fireParticles.appendChild(ember);
-    setTimeout(() => ember.remove(), 12000);
-}
-
-setInterval(createRandomEmber, 3000);
-
-// Keyboard shortcut: press 'F' for fire burst
-document.addEventListener('keydown', (e) => {
-    if (e.key.toLowerCase() === 'f') {
-        const fireGlow = document.querySelector('.fire-glow');
-        const fireParticles = document.querySelector('.fire-particles');
-        
-        fireGlow.style.transition = 'all 0.2s ease';
-        fireGlow.style.transform = 'translate(-50%, -50%) scale(1.5)';
-        fireGlow.style.opacity = '1';
-        
-        for (let i = 0; i < 15; i++) {
-            const ember = document.createElement('div');
-            ember.className = 'ember burst-ember';
-            ember.style.left = (Math.random() * 100) + '%';
-            ember.style.animationDuration = (Math.random() * 2 + 3) + 's';
-            fireParticles.appendChild(ember);
-            setTimeout(() => ember.remove(), 5000);
-        }
-        
-        setTimeout(() => {
-            fireGlow.style.transform = 'translate(-50%, -50%) scale(1)';
-            fireGlow.style.opacity = '0.6';
-        }, 500);
-    }
-});
-
-// Add breathing effect to darkness
-const darkness = document.querySelector('.darkness');
-let breatheIntensity = 0;
+// Scanline intensity variation
+const scanlines = document.querySelector('.scanlines');
+let scanIntensity = 0;
 setInterval(() => {
-    breatheIntensity += 0.02;
-    const breath = Math.sin(breatheIntensity) * 0.05 + 1;
-    darkness.style.filter = `brightness(${breath})`;
+    scanIntensity += 0.01;
+    const intensity = Math.sin(scanIntensity) * 0.05 + 0.1;
+    scanlines.style.opacity = intensity;
+}, 100);
+
+// Random particle spawn
+function createColdParticle() {
+    const particles = document.querySelector('.particles');
+    const particle = document.createElement('div');
+    particle.className = 'particle dynamic-particle';
+    particle.style.width = (Math.random() * 3 + 2) + 'px';
+    particle.style.height = particle.style.width;
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = Math.random() * 100 + '%';
+    particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+    
+    particles.appendChild(particle);
+    
+    setTimeout(() => particle.remove(), 25000);
+}
+
+// Spawn particles periodically
+setInterval(createColdParticle, 4000);
+
+// Ambient breathing effect
+const container = document.querySelector('.container');
+let breathe = 0;
+setInterval(() => {
+    breathe += 0.015;
+    const brightness = Math.sin(breathe) * 0.03 + 1;
+    container.style.filter = `brightness(${brightness})`;
 }, 50);
 
-console.log('🔥 FAURI: Denied a Name');
-console.log('The fire of identity burns in the darkness...');
-console.log('Coming 2026');
-console.log('Tip: Press "F" for a fire burst effect');
+// Console message
+console.log('═══════════════════════════════════');
+console.log('     FAURIVERSE - Coming 2026      ');
+console.log('═══════════════════════════════════');
+console.log('');
+console.log('"While the fire burns — the identity exists"');
+console.log('');
+console.log('A story about identity, transformation,');
+console.log('and what makes us human.');
