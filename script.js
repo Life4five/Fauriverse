@@ -84,37 +84,6 @@ document.addEventListener('wheel', () => {
     }, 2000);
 });
 
-// Easter egg: Konami code
-let konamiCode = [];
-const konamiSequence = [
-    'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
-    'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
-    'b', 'a'
-];
-
-document.addEventListener('keydown', (e) => {
-    konamiCode.push(e.key);
-    konamiCode = konamiCode.slice(-10);
-    
-    if (konamiCode.join(',') === konamiSequence.join(',')) {
-        const content = document.querySelector('.content');
-        content.style.animation = 'spin 1s ease-in-out';
-        
-        setTimeout(() => {
-            content.style.animation = '';
-        }, 1000);
-    }
-});
-
-const spinStyle = document.createElement('style');
-spinStyle.textContent = `
-    @keyframes spin {
-        0% { transform: rotate(0deg) scale(1); }
-        50% { transform: rotate(180deg) scale(1.2); }
-        100% { transform: rotate(360deg) scale(1); }
-    }
-`;
-document.head.appendChild(spinStyle);
 
 console.log('✨ Fauriverse - Coming Soon ✨');
 console.log('Stay tuned for something extraordinary...');
