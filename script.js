@@ -3,7 +3,7 @@ const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 let particles = [];
 
-// Get quote element position for default mouse target
+
 function getQuoteCenter() {
     const quote = document.querySelector('.quote');
     if (quote) {
@@ -13,7 +13,7 @@ function getQuoteCenter() {
             y: rect.top + rect.height / 2
         };
     }
-    // Fallback to center of screen
+
     return {
         x: window.innerWidth / 2,
         y: window.innerHeight / 2
@@ -23,7 +23,7 @@ function getQuoteCenter() {
 let quoteCenter = getQuoteCenter();
 let mouseX = quoteCenter.x;
 let mouseY = quoteCenter.y;
-let mouseActive = false; // Track if user has moved mouse
+let mouseActive = false;
 
 // Set canvas size
 function resizeCanvas() {
@@ -81,13 +81,13 @@ class Particle {
         this.life--;
         this.flicker += 0.1;
         
-        // Subtle attraction to mouse (or quote if mouse hasn't moved)
+        // Subtle attraction to mouse
         const dx = mouseX - this.x;
         const dy = mouseY - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < 200) {
-            const force = (200 - distance) / 200 * 0.01;
+        if (distance < 100) {
+            const force = (100 - distance) / 100 * 0.02;
             this.x += dx * force;
             this.y += dy * force;
         }
