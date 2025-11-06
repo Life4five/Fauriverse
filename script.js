@@ -1,4 +1,4 @@
-// Particle system for embers/coals effect
+// Embers effect
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 let particles = [];
@@ -25,7 +25,7 @@ let mouseX = quoteCenter.x;
 let mouseY = quoteCenter.y;
 let mouseActive = false;
 
-// Set canvas size
+
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -50,11 +50,11 @@ window.addEventListener('load', () => {
     }, 4200); // Wait for fadeInUp animation (2s delay + 2s animation)
 });
 
-// Track mouse position
+
 document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    mouseActive = true; // User has moved mouse, switch from quote to cursor
+    mouseActive = true;
 });
 
 // Particle class for embers
