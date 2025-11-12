@@ -152,6 +152,41 @@ body {
 }
 
 
+.contact {
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-style: italic;
+    color: #6b7280;
+    max-width: 500px;
+    margin: 3rem auto 0 auto;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeInUp 2s ease-in 2s forwards;
+}
+
+#copied-popup {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(137, 196, 255, 0.15);
+    border: 1px solid #89c4ff;
+    color: #89c4ff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    margin-top: 1rem;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+#copied-popup.show {
+    opacity: 1;
+}
+
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

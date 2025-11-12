@@ -1,6 +1,20 @@
 // Embers effect
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
+
+// Copied contact pop-up
+document.getElementById("email").addEventListener("click", function() {
+    const email = this.textContent.trim();
+    navigator.clipboard.writeText(email).then(() => {
+        const popup = document.getElementById("copied-popup");
+        popup.classList.add("show");
+        setTimeout(() => {
+            popup.classList.remove("show");
+        }, 2000);
+    });
+});
+
+
 let particles = [];
 
 
